@@ -19,9 +19,33 @@ namespace ASPMVC.Controllers
         }
 
         // GET: Guns
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string gunType, string searchString)
         {
-            return View(await _context.Gun.ToListAsync());
+            // Use LINQ to get list of genres.
+            IQueryable<string> typeQuery = from g in _context.Gun
+                                            orderby g.Type
+                                            select g.Type;
+
+            var guns = from g in _context.Gun
+                         select g;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                guns = guns.Where(s => s.Name.Contains(searchString));
+            }
+
+            if (!string.IsNullOrEmpty(gunType))
+            {
+                guns = guns.Where(x => x.Type == gunType);
+            }
+
+            var gunTypeVM = new GunTypeViewModel
+            {
+                Types = new SelectList(await typeQuery.Distinct().ToListAsync()),
+                Guns = await guns.ToListAsync()
+            };
+
+            return View(gunTypeVM);
         }
 
         // GET: Guns/Details/5
