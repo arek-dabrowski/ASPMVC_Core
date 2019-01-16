@@ -177,6 +177,7 @@ namespace ASPMVC.Controllers
             return _context.Gun.Any(e => e.ID == id);
         }
 
+        // Manufacturer Dropdown List
         private void GunManufacturerDropDownList(object selectedManufacturer = null)
         {
             var manufacturersQuery = from m in _context.Manufacturer
