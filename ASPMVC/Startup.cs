@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using ASPMVC.Models;
+using System.Globalization;
 
 namespace ASPMVC
 {
@@ -64,6 +65,14 @@ namespace ASPMVC
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            var cultureInfo = new CultureInfo("en-US");
+            cultureInfo.NumberFormat.CurrencySymbol = "$";
+            cultureInfo.DateTimeFormat.ShortDatePattern = "dd-MM-yyyy";
+            cultureInfo.DateTimeFormat.DateSeparator = "-";
+
+            CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+            CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
         }
     }
 }

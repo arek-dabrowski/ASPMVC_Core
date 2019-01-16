@@ -21,27 +21,21 @@ namespace ASPMVC.Controllers
         // GET: Guns
         public async Task<IActionResult> Index(string gunType, string searchString)
         {
-            // Use LINQ to get list of genres.
-            IQueryable<string> typeQuery = from g in _context.Gun
-                                            orderby g.Type
-                                            select g.Type;
-
-            var guns = from g in _context.Gun
-                         select g;
+            var guns = from g in _context.Gun.Include(c => c.Manufacturer).AsNoTracking()
+                select g;
 
             if (!String.IsNullOrEmpty(searchString))
             {
                 guns = guns.Where(s => s.Name.Contains(searchString));
             }
 
-            if (!string.IsNullOrEmpty(gunType))
+            if (!String.IsNullOrEmpty(gunType))
             {
-                guns = guns.Where(x => x.Type == gunType);
+                guns = guns.Where(x => x.Type == (GunType)int.Parse(gunType));
             }
 
             var gunTypeVM = new GunTypeViewModel
             {
-                Types = new SelectList(await typeQuery.Distinct().ToListAsync()),
                 Guns = await guns.ToListAsync()
             };
 
@@ -57,7 +51,13 @@ namespace ASPMVC.Controllers
             }
 
             var gun = await _context.Gun
-                .FirstOrDefaultAsync(m => m.ID == id);
+                .Include(s => s.Manufacturer)
+                .AsNoTracking()
+                .SingleOrDefaultAsync(m => m.ID == id);
+
+            //var gun = await _context.Gun
+            //    .FirstOrDefaultAsync(m => m.ID == id);
+
             if (gun == null)
             {
                 return NotFound();
@@ -69,6 +69,7 @@ namespace ASPMVC.Controllers
         // GET: Guns/Create
         public IActionResult Create()
         {
+            GunManufacturerDropDownList();
             return View();
         }
 
@@ -77,7 +78,7 @@ namespace ASPMVC.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Name,ProductionDate,Type,Caliber,Price")] Gun gun)
+        public async Task<IActionResult> Create([Bind("ID,Name,ProductionDate,Type,Caliber,Price,ManufacturerID")] Gun gun)
         {
             if (ModelState.IsValid)
             {
@@ -85,6 +86,8 @@ namespace ASPMVC.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
+            GunManufacturerDropDownList(gun.ManufacturerID);
             return View(gun);
         }
 
@@ -101,6 +104,7 @@ namespace ASPMVC.Controllers
             {
                 return NotFound();
             }
+            GunManufacturerDropDownList(gun.ManufacturerID);
             return View(gun);
         }
 
@@ -109,7 +113,7 @@ namespace ASPMVC.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Name,ProductionDate,Type,Caliber,Price")] Gun gun)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Name,ProductionDate,Type,Caliber,Price,ManufacturerID")] Gun gun)
         {
             if (id != gun.ID)
             {
@@ -171,6 +175,14 @@ namespace ASPMVC.Controllers
         private bool GunExists(int id)
         {
             return _context.Gun.Any(e => e.ID == id);
+        }
+
+        private void GunManufacturerDropDownList(object selectedManufacturer = null)
+        {
+            var manufacturersQuery = from m in _context.Manufacturer
+                                   orderby m.Name
+                                   select m;
+            ViewBag.ManufacturerID = new SelectList(manufacturersQuery.AsNoTracking(), "ManufacturerID", "Name", selectedManufacturer);
         }
     }
 }

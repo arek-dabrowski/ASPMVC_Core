@@ -1,0 +1,42 @@
+﻿@model ASPMVC.Models.Manufacturer
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Manufacturer</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Country)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Country)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Headquarters)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Headquarters)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FoundDate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FoundDate)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.ManufacturerID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

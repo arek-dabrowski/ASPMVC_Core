@@ -3,14 +3,16 @@ using System;
 using ASPMVC.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ASPMVC.Migrations
 {
     [DbContext(typeof(ASPMVCContext))]
-    partial class ASPMVCContextModelSnapshot : ModelSnapshot
+    [Migration("20190116210908_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
