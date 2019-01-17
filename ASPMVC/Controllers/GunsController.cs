@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ASPMVC.Models;
 using ASPMVC.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ASPMVC.Controllers
 {
@@ -68,6 +69,7 @@ namespace ASPMVC.Controllers
         }
 
         // GET: Guns/Create
+        [Authorize(Roles = "Administrator")]
         public IActionResult Create()
         {
             GunManufacturerDropDownList();
@@ -79,6 +81,7 @@ namespace ASPMVC.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Create([Bind("ID,Name,ProductionDate,Type,Caliber,Price,ManufacturerID")] Gun gun)
         {
             if (ModelState.IsValid)
@@ -93,6 +96,7 @@ namespace ASPMVC.Controllers
         }
 
         // GET: Guns/Edit/5
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -114,6 +118,7 @@ namespace ASPMVC.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Edit(int id, [Bind("ID,Name,ProductionDate,Type,Caliber,Price,ManufacturerID")] Gun gun)
         {
             if (id != gun.ID)
@@ -145,6 +150,7 @@ namespace ASPMVC.Controllers
         }
 
         // GET: Guns/Delete/5
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -165,6 +171,7 @@ namespace ASPMVC.Controllers
         // POST: Guns/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var gun = await _context.Gun.FindAsync(id);

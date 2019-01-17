@@ -27,5 +27,8 @@ namespace ASPMVC.Models
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy}", ApplyFormatInEditMode = true)]
         public DateTime FoundDate { get; set; }
+
+        [Display(Name = "Produced Guns")]
+        public List<Gun> Guns { get; set; }
     }
 }

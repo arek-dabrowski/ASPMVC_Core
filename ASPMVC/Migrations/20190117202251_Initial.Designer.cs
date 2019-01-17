@@ -6,10 +6,10 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace ASPMVC.Data.Migrations
+namespace ASPMVC.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190117114411_Initial")]
+    [Migration("20190117202251_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -182,11 +182,9 @@ namespace ASPMVC.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.Property<string>("LoginProvider")
-                        .HasMaxLength(128);
+                    b.Property<string>("LoginProvider");
 
-                    b.Property<string>("ProviderKey")
-                        .HasMaxLength(128);
+                    b.Property<string>("ProviderKey");
 
                     b.Property<string>("ProviderDisplayName");
 
@@ -217,11 +215,9 @@ namespace ASPMVC.Data.Migrations
                 {
                     b.Property<string>("UserId");
 
-                    b.Property<string>("LoginProvider")
-                        .HasMaxLength(128);
+                    b.Property<string>("LoginProvider");
 
-                    b.Property<string>("Name")
-                        .HasMaxLength(128);
+                    b.Property<string>("Name");
 
                     b.Property<string>("Value");
 
@@ -233,7 +229,7 @@ namespace ASPMVC.Data.Migrations
             modelBuilder.Entity("ASPMVC.Models.Gun", b =>
                 {
                     b.HasOne("ASPMVC.Models.Manufacturer", "Manufacturer")
-                        .WithMany()
+                        .WithMany("Guns")
                         .HasForeignKey("ManufacturerID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

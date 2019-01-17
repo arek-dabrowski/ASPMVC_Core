@@ -1,0 +1,29 @@
+﻿@model ASPMVC.Models.Gun
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+<tr>
+    <td>
+        @Html.DisplayFor(model => model.Name)
+    </td>
+    <td>
+        @Html.DisplayFor(model => model.ProductionDate)
+    </td>
+    <td>
+        @Html.DisplayFor(model => model.Type)
+    </td>
+    <td>
+        @Html.DisplayFor(model => model.Caliber)
+    </td>
+    <td>
+        @Html.DisplayFor(model => model.Price)
+    </td>
+    @if (SignInManager.IsSignedIn(User) && (this.User.IsInRole("Administrator")))
+    {
+        <td>
+            <a asp-controller="Guns" asp-action="Edit" asp-route-id="@Model.ID">Edit</a> |
+            <a asp-controller="Guns" asp-action="Delete" asp-route-id="@Model.ID">Delete</a>
+        </td>
+    }
+</tr>

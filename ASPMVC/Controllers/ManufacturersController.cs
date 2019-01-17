@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ASPMVC.Models;
 using ASPMVC.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ASPMVC.Controllers
 {
@@ -28,6 +29,7 @@ namespace ASPMVC.Controllers
         // GET: Manufacturers/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            ProducedGunsViewModel model = new ProducedGunsViewModel();
             if (id == null)
             {
                 return NotFound();
@@ -40,10 +42,25 @@ namespace ASPMVC.Controllers
                 return NotFound();
             }
 
-            return View(manufacturer);
+            model.Manufacturer = manufacturer;
+
+            var quey = from gun
+                       in (await _context.Gun.ToListAsync())
+                       where (gun.ManufacturerID == id)
+                       select gun;
+
+            List<Gun> GunList = new List<Gun>();
+
+            foreach (var item in quey)
+            {
+                GunList.Add(item);
+            }
+            model.Guns = GunList;
+            return View(model);
         }
 
         // GET: Manufacturers/Create
+        [Authorize(Roles = "Administrator")]
         public IActionResult Create()
         {
             return View();
@@ -54,6 +71,7 @@ namespace ASPMVC.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Create([Bind("ManufacturerID,Name,Country,Headquarters,FoundDate")] Manufacturer manufacturer)
         {
             if (ModelState.IsValid)
@@ -66,6 +84,7 @@ namespace ASPMVC.Controllers
         }
 
         // GET: Manufacturers/Edit/5
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -86,6 +105,7 @@ namespace ASPMVC.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Edit(int id, [Bind("ManufacturerID,Name,Country,Headquarters,FoundDate")] Manufacturer manufacturer)
         {
             if (id != manufacturer.ManufacturerID)
@@ -117,6 +137,7 @@ namespace ASPMVC.Controllers
         }
 
         // GET: Manufacturers/Delete/5
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -137,6 +158,7 @@ namespace ASPMVC.Controllers
         // POST: Manufacturers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var manufacturer = await _context.Manufacturer.FindAsync(id);

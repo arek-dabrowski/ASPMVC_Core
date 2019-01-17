@@ -1,4 +1,7 @@
 ﻿@model ASPMVC.Models.Gun
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
 
 @{
     ViewData["Title"] = "Details";
@@ -47,11 +50,13 @@
             <table class="table">
                 @await Html.PartialAsync("_GunManufacturerPartial", Model.Manufacturer)
             </table>
-
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.ID">Edit</a> |
+    @if (SignInManager.IsSignedIn(User) && (this.User.IsInRole("Administrator")))
+    {
+        <a asp-action="Edit" asp-route-id="@Model.ID">Edit</a><text> |</text>
+    }
     <a asp-action="Index">Back to List</a>
 </div>
