@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ASPMVC.Data;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,9 +13,9 @@ namespace ASPMVC.Models
     {
         public static void Initialize(IServiceProvider serviceProvider)
         {
-            using (var context = new ASPMVCContext(
+            using (var context = new ApplicationDbContext(
                 serviceProvider.GetRequiredService<
-                    DbContextOptions<ASPMVCContext>>()))
+                    DbContextOptions<ApplicationDbContext>>()))
             {
                 if (!context.Manufacturer.Any())
                 {

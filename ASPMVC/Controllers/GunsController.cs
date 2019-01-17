@@ -6,14 +6,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ASPMVC.Models;
+using ASPMVC.Data;
 
 namespace ASPMVC.Controllers
 {
     public class GunsController : Controller
     {
-        private readonly ASPMVCContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public GunsController(ASPMVCContext context)
+        public GunsController(ApplicationDbContext context)
         {
             _context = context;
         }

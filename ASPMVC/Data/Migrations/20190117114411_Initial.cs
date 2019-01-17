@@ -1,12 +1,20 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace ASPMVC.Migrations
+namespace ASPMVC.Data.Migrations
 {
     public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropIndex(
+                name: "UserNameIndex",
+                table: "AspNetUsers");
+
+            migrationBuilder.DropIndex(
+                name: "RoleNameIndex",
+                table: "AspNetRoles");
+
             migrationBuilder.CreateTable(
                 name: "Manufacturer",
                 columns: table => new
@@ -48,6 +56,18 @@ namespace ASPMVC.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "UserNameIndex",
+                table: "AspNetUsers",
+                column: "NormalizedUserName",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "RoleNameIndex",
+                table: "AspNetRoles",
+                column: "NormalizedName",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Gun_ManufacturerID",
                 table: "Gun",
                 column: "ManufacturerID");
@@ -60,6 +80,28 @@ namespace ASPMVC.Migrations
 
             migrationBuilder.DropTable(
                 name: "Manufacturer");
+
+            migrationBuilder.DropIndex(
+                name: "UserNameIndex",
+                table: "AspNetUsers");
+
+            migrationBuilder.DropIndex(
+                name: "RoleNameIndex",
+                table: "AspNetRoles");
+
+            migrationBuilder.CreateIndex(
+                name: "UserNameIndex",
+                table: "AspNetUsers",
+                column: "NormalizedUserName",
+                unique: true,
+                filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "RoleNameIndex",
+                table: "AspNetRoles",
+                column: "NormalizedName",
+                unique: true,
+                filter: "[NormalizedName] IS NOT NULL");
         }
     }
 }

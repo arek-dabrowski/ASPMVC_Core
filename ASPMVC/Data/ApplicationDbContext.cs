@@ -1,21 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using ASPMVC.Models;
 
-namespace ASPMVC.Models
+namespace ASPMVC.Data
 {
-    public class ASPMVCContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext
     {
-        public ASPMVCContext (DbContextOptions<ASPMVCContext> options)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
         }
 
         public DbSet<ASPMVC.Models.Gun> Gun { get; set; }
-
         public DbSet<ASPMVC.Models.Manufacturer> Manufacturer { get; set; }
     }
 }

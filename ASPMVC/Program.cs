@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using ASPMVC.Data;
 using ASPMVC.Models;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
@@ -26,7 +27,7 @@ namespace ASPMVC
                 try
                 {
                     var context = services.
-                        GetRequiredService<ASPMVCContext>();
+                        GetRequiredService<ApplicationDbContext>();
                     context.Database.Migrate();
                     SeedData.Initialize(services);
                 }
