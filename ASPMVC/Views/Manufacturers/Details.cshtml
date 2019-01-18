@@ -67,7 +67,7 @@
                     <tbody>
                         @foreach (var item in Model.Guns)
                         {
-                            @await Html.PartialAsync("_ProducedGunsPartial", item);
+                            <partial name="_ProducedGunsPartial" model="item" />
                         }
                     </tbody>
                 </table>

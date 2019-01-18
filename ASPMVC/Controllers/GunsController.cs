@@ -57,9 +57,6 @@ namespace ASPMVC.Controllers
                 .AsNoTracking()
                 .SingleOrDefaultAsync(m => m.ID == id);
 
-            //var gun = await _context.Gun
-            //    .FirstOrDefaultAsync(m => m.ID == id);
-
             if (gun == null)
             {
                 return NotFound();
@@ -86,6 +83,8 @@ namespace ASPMVC.Controllers
         {
             if (ModelState.IsValid)
             {
+                var manufacturer = await _context.Manufacturer.FindAsync(gun.ManufacturerID);
+                gun.Manufacturer = manufacturer;
                 _context.Add(gun);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

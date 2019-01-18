@@ -14,10 +14,12 @@ namespace ASPMVC.Models
 
         [Required]
         [StringLength(20, MinimumLength = 3)]
+        [FirstCapital]
         public string Name { get; set; }
 
         [Display(Name = "Release Date")]
         [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime ProductionDate { get; set; }
 
         [Range(1, int.MaxValue, ErrorMessage = "Select a Gun Type")]
@@ -26,10 +28,8 @@ namespace ASPMVC.Models
 
         public string Caliber { get; set; }
 
-        [Required]
-        [Range(1, 10000)]
+        [Range(0, 9999.99)]
         [DataType(DataType.Currency)]
-        [Column(TypeName = "decimal(18, 2)")]
         public decimal Price { get; set; }
 
         public int ManufacturerID { get; set; }
@@ -39,20 +39,11 @@ namespace ASPMVC.Models
     public enum GunType
     {
         None,
-
-        [Description("Assault Rifle")]
         Assault,
-
-        [Description("Pistol")]
         Pistol,
-
-        [Description("Revolver")]
         Revolver,
-
-        [Description("Shotgun")]
         Shotgun,
-
-        [Description("Sniper Rifle")]
         Sniper
     }
+
 }

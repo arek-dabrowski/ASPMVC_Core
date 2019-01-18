@@ -4,21 +4,7 @@
 @inject UserManager<IdentityUser> UserManager
 
 <tr>
-    <td>
-        @Html.DisplayFor(model => model.Name)
-    </td>
-    <td>
-        @Html.DisplayFor(model => model.ProductionDate)
-    </td>
-    <td>
-        @Html.DisplayFor(model => model.Type)
-    </td>
-    <td>
-        @Html.DisplayFor(model => model.Caliber)
-    </td>
-    <td>
-        @Html.DisplayFor(model => model.Price)
-    </td>
+    <gun-details for-name="Name" for-production="ProductionDate" for-type="Type" for-caliber="Caliber" for-price="Price"></gun-details>
     @if (SignInManager.IsSignedIn(User) && (this.User.IsInRole("Administrator")))
     {
         <td>
