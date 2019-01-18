@@ -83,8 +83,6 @@ namespace ASPMVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                var manufacturer = await _context.Manufacturer.FindAsync(gun.ManufacturerID);
-                gun.Manufacturer = manufacturer;
                 _context.Add(gun);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
